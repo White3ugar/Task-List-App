@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-part 'task_model.g.dart'; // generated file
+part 'task_model.g.dart';
 
 @HiveType(typeId: 0)
 class Task {
