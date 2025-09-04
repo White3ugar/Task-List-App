@@ -26,7 +26,8 @@ Task-List-App is a minimalist task manager built using Flutter and implemented w
 - Add, update, and remove tasks  
 - Mark tasks as completed  
 - Simple and clean UI with Flutter  
-- Scalable architecture using BLoC for state management
+- Scalable architecture using BLoC for state management  
+- [Watch Demo Video](https://youtu.be/k4W5Sm1g0b8)
 
 ---
 
