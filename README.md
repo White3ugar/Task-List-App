@@ -58,7 +58,7 @@ The compiled .exe will be located in:
 #### Option 2: Use Pre-built Windows Release
 
 1. Go to the [Releases](https://github.com/White3ugar/Task-List-App/releases) page.  
-2. Download the latest release **ZIP file**
+2. Download the latest release **ZIP file**, e.g. **Release.zip**
 3. Extract the ZIP to a folder of your choice.  
 4. Open the folder and run: **task_list_app.exe**
 5. The app will launch, ready to use.
