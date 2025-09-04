@@ -16,17 +16,19 @@ class TaskScreen extends StatefulWidget {
 
 class _TaskScreenState extends State<TaskScreen> {
   final TextEditingController titleInputField = TextEditingController();
+  final TextEditingController contentInputField = TextEditingController();
 
   // Default filter state
   TaskFilter currentFilter = TaskFilter.all;
 
   // Function to handle adding a new task
-  void addNewTask(BuildContext context, TextEditingController controller) {
-    if (controller.text.isEmpty) {
+  void addNewTask(BuildContext context) {
+    // Check if title is empty -> not allowed
+    if (titleInputField.text.isEmpty) {
       showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-          title: const Text('Empty Task'),
+          title: const Text('Empty Title'),
           content: const Text('Please enter a task title before adding.'),
           actions: [
             TextButton(
@@ -39,9 +41,14 @@ class _TaskScreenState extends State<TaskScreen> {
       return;
     }
 
-    context.read<TaskBloc>().add(AddTask(controller.text));
-    controller.clear();
+    // Send both title and content
+    context.read<TaskBloc>().add(AddTask(titleInputField.text,content: contentInputField.text.isEmpty ? null : contentInputField.text,));
 
+    // Clear inputs
+    titleInputField.clear();
+    contentInputField.clear();
+
+    // Snackbar feedback
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Task added')),
     );
@@ -81,40 +88,69 @@ class _TaskScreenState extends State<TaskScreen> {
           // Input row (TextField + Add button)
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 10, 10, 25),
-            child: Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: TextField(
-                    controller: titleInputField,
-                    style: const TextStyle(
-                      color: Colors.black, 
-                    ),
-                    cursorColor: Colors.black,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter task',
-                      hintStyle: TextStyle(color: Colors.grey), 
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
+                // Title row
+                Row(
+                  children: [
+                    Flexible(
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(
+                          maxWidth: 600, 
+                        ),
+                        child: TextField(
+                          controller: titleInputField,
+                          style: const TextStyle(color: Colors.black),
+                          cursorColor: Colors.black,
+                          decoration: const InputDecoration(
+                            hintText: 'Enter title',
+                            hintStyle: TextStyle(color: Colors.grey),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black, width: 2),
+                            ),
+                          ),
+                          onSubmitted: (_) => addNewTask(context),
+                        ),
                       ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black, width: 2), 
-                      ),
                     ),
-                    onSubmitted: (value) => addNewTask(context, titleInputField),
-                  ),
+                    IconButton(
+                      icon: const Icon(Icons.add, color: Colors.black),
+                      onPressed: () => addNewTask(context),
+                    ),
+                  ],
                 ),
-                IconButton(
-                  icon: const Icon(
-                    Icons.add,
-                    color: Colors.black, // set icon color to black
-                  ),
-                  onPressed: () => addNewTask(context, titleInputField),
+
+                const SizedBox(height: 10),
+
+                // Content row
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: contentInputField,
+                        style: const TextStyle(color: Colors.black),
+                        cursorColor: Colors.black,
+                        decoration: const InputDecoration(
+                          hintText: 'Enter content (optional)',
+                          hintStyle: TextStyle(color: Colors.grey),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black, width: 2),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
-            ),
+            )
           ),
-
-          //const SizedBox(height: 25),
 
           // Filter buttons row
           Padding(
@@ -131,7 +167,7 @@ class _TaskScreenState extends State<TaskScreen> {
             ),
           ),
 
-          // Task list
+          // Display task list
           Expanded(
             child: BlocBuilder<TaskBloc, TaskState>(
               builder: (context, state) {
@@ -157,15 +193,24 @@ class _TaskScreenState extends State<TaskScreen> {
                     final task = filteredTasks[index];
 
                     return ListTile(
-                      // Task title (strikethrough if completed)
+                      // Display task title (strikethrough if completed)
                       title: Text(
                         task.title,
                         style: TextStyle(
-                          decoration: task.isCompleted
-                              ? TextDecoration.lineThrough
-                              : null,
+                          fontWeight: FontWeight.bold, // bold the title
+                          decoration: task.isCompleted ? TextDecoration.lineThrough : null,
                         ),
                       ),
+
+                      subtitle: task.content != null && task.content!.isNotEmpty
+                          ? Text(
+                              task.content!,
+                              style: const TextStyle(
+                                fontSize: 13, // slightly smaller
+                                fontWeight: FontWeight.normal, // keep it normal weight
+                              ),
+                            )
+                          : null,
 
                       // Checkbox for marking task complete/incomplete
                       leading: Checkbox(

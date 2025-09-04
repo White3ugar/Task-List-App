@@ -12,18 +12,23 @@ class Task {
 
   @HiveField(2)
   final bool isCompleted;
+  
+  @HiveField(3)
+  final String? content;
 
   Task({
     required this.id,
     required this.title,
     this.isCompleted = false,
+    this.content,
   });
 
-  Task updateWith({String? id, String? title, bool? isCompleted}) {
+  Task updateWith({String? id, String? title, bool? isCompleted,String? content}) {
     return Task(
       id: id ?? this.id,
       title: title ?? this.title,
       isCompleted: isCompleted ?? this.isCompleted,
+      content: content ?? this.content,
     );
   }
 }

@@ -2,7 +2,9 @@ abstract class TaskEvent {}
 
 class AddTask extends TaskEvent {
   final String title;
-  AddTask(this.title);
+  final String? content;
+
+  AddTask(this.title, {this.content});
 }
 
 class ToggleTask extends TaskEvent {

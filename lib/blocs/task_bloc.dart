@@ -15,7 +15,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
     // Handle adding a new task
     on<AddTask>((event, emit) {
-      final newTask = Task(id: DateTime.now().toString(), title: event.title);
+      final newTask = Task(id: DateTime.now().toString(), title: event.title, content: event.content,);
       taskBox.add(newTask); // save to Hive
 
       // Get the current task list and define as updatedTasks
