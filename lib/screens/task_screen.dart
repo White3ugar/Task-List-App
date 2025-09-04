@@ -28,12 +28,22 @@ class _TaskScreenState extends State<TaskScreen> {
       showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-          title: const Text('Empty Title'),
-          content: const Text('Please enter a task title before adding.'),
+          backgroundColor: Colors.black, 
+          title: const Text(
+            'Empty Title',
+            style: TextStyle(color: Colors.white),
+          ),
+          content: const Text(
+            'Please enter a task title before adding.',
+            style: TextStyle(color: Colors.white),
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(ctx).pop(),
-              child: const Text('OK'),
+              child: const Text(
+                'OK',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         ),
@@ -41,14 +51,11 @@ class _TaskScreenState extends State<TaskScreen> {
       return;
     }
 
-    // Send both title and content
     context.read<TaskBloc>().add(AddTask(titleInputField.text,content: contentInputField.text.isEmpty ? null : contentInputField.text,));
 
-    // Clear inputs
     titleInputField.clear();
     contentInputField.clear();
 
-    // Snackbar feedback
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Task added')),
     );
@@ -197,7 +204,7 @@ class _TaskScreenState extends State<TaskScreen> {
                       title: Text(
                         task.title,
                         style: TextStyle(
-                          fontWeight: FontWeight.bold, // bold the title
+                          fontWeight: FontWeight.bold,
                           decoration: task.isCompleted ? TextDecoration.lineThrough : null,
                         ),
                       ),
@@ -206,8 +213,8 @@ class _TaskScreenState extends State<TaskScreen> {
                           ? Text(
                               task.content!,
                               style: const TextStyle(
-                                fontSize: 13, // slightly smaller
-                                fontWeight: FontWeight.normal, // keep it normal weight
+                                fontSize: 13,
+                                fontWeight: FontWeight.normal,
                               ),
                             )
                           : null,
@@ -227,20 +234,30 @@ class _TaskScreenState extends State<TaskScreen> {
                           showDialog(
                             context: context,
                             builder: (ctx) => AlertDialog(
-                              title: const Text('Delete Task'),
-                              content: const Text('Are you sure you want to delete this task?'),
+                              backgroundColor: Colors.black,
+                              title: const Text(
+                                'Delete Task',
+                                style: TextStyle(color: Colors.white), 
+                              ),
+                              content: const Text(
+                                'Are you sure you want to delete this task?',
+                                style: TextStyle(color: Colors.white),
+                              ),
                               actions: [
                                 // Cancel button
                                 TextButton(
                                   onPressed: () => Navigator.of(ctx).pop(),
-                                  child: const Text('No'),
+                                  child: const Text(
+                                    'No',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 ),
 
                                 // Confirm delete button
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.of(ctx).pop(); // Close dialog
-                                    context.read<TaskBloc>().add(DeleteTask(task.id)); // Dispatch delete event
+                                    Navigator.of(ctx).pop(); 
+                                    context.read<TaskBloc>().add(DeleteTask(task.id)); 
 
                                     // Show confirmation message
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -249,7 +266,7 @@ class _TaskScreenState extends State<TaskScreen> {
                                   },
                                   child: const Text(
                                     'Yes',
-                                    style: TextStyle(color: Colors.red),
+                                    style: TextStyle(color: Colors.red), 
                                   ),
                                 ),
                               ],
