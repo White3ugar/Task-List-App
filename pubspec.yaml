@@ -1,5 +1,5 @@
-name: flutter_todolistapp
-description: A Flutter ToDo List app.
+name: task_list_app
+description: A Flutter Task List app.
 publish_to: 'none'
 
 version: 1.0.0+1
