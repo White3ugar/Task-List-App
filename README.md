@@ -38,7 +38,7 @@ Task-List-App is a minimalist task manager built using Flutter and implemented w
 - **Dart SDK**  
 
 ### Installation
-
+#### Option 1: Run from Source
 1. Clone the repository:  
    ```shell
    git clone https://github.com/White3ugar/Task-List-App.git
@@ -54,6 +54,14 @@ Task-List-App is a minimalist task manager built using Flutter and implemented w
    flutter build windows
 The compiled .exe will be located in: 
 **build/windows/runner/Release/flutter_todolistapp.exe**
+
+#### Option 2: Use Pre-built Windows Release
+
+1. Go to the [Releases](https://github.com/White3ugar/Task-List-App/releases) page.  
+2. Download the latest release **ZIP file**
+3. Extract the ZIP to a folder of your choice.  
+4. Open the folder and run: **task_list_app.exe**
+5. The app will launch, ready to use.
 
 ---
 
